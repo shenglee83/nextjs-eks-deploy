@@ -1,14 +1,10 @@
 FROM node:latest
 
-RUN mkdir -p /app
-
-WORKDIR /app
-
 RUN npm install
 
 ENV NODE_ENV production
 
-COPY package.json ./
+COPY . .
 
 RUN npm run build
 
