@@ -1,0 +1,26 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextjs-app-github-action
+  labels:
+    app: nextjs-github-action-app
+spec:
+  selector:
+    matchLabels:
+        app: nextjs-github-action-app
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: nextjs-github-action-app
+    spec:
+      containers:
+        - name: nextjs-github-action-app
+          image: 128115030554.dkr.ecr.ap-southeast-1.amazonaws.com/gsl-repositories/gsl-repositories:latest
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          imagePullPolicy: Always
