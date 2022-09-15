@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: nextjs-github-action-app
-          image: 128115030554.dkr.ecr.ap-southeast-1.amazonaws.com/gsl-repositories/:latest
+          image: 128115030554.dkr.ecr.ap-southeast-1.amazonaws.com/gsl-repositories:latest
           ports:
             - containerPort: 3000
               protocol: TCP
