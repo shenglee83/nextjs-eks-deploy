@@ -1,0 +1,32 @@
+{
+  "family": "nextjs-eks-deploy",
+  "networkMode": "awsvpc",
+  "containerDefinitions": [
+    {
+      "name": "nextjs-container",
+      "image": "128115030554.dkr.ecr.ap-southeast-1.amazonaws.com/ecr_repository_poc",
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "protocol": "tcp"
+        }
+      ],
+      "memory": 512,
+      "cpu": 256,
+      "essential": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/fargate-task-definition",
+          "awslogs-region": "ap-southeast-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ],
+  "executionRoleArn": "arn:aws:iam::128115030554:role/ecsTaskExecutionRole",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "taskRoleArn": null
+}
