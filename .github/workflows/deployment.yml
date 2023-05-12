@@ -57,7 +57,7 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: gsl-repositories
+          ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
           ECR_IMAGE_TAG: ${{ github.sha }}
           VERSION: ${{steps.package-version.outputs.current-version}}
         run: |
