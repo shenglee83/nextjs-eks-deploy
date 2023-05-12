@@ -12,7 +12,7 @@ export default function Home() {
       </Head>
       
       <h1 className={styles.title}>
-          This application is deployed to AWS ECS Fargate launch type</a>
+          This application is deployed to AWS ECS Fargate launch type
       </h1>
 
       <main className={styles.main}>
