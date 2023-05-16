@@ -3,7 +3,7 @@ Description: Deploy a ECS service on AWS Fargate, using image build and stored i
 Parameters:
   RepositoryName:
     Type: String
-    Default: Next_JS_POC
+    Default: next_js_poc
     Description: A name for the ECR Repository
   ClusterName:
     Type: String
