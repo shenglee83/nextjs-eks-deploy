@@ -1,0 +1,92 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Deploy a ECS service on AWS Fargate, using image build and stored in AWS ECR Container.
+Parameters:
+  RepositoryName:
+    Type: String
+    Default: Next_JS_POC
+    Description: A name for the ECR Repository
+  ClusterName:
+    Type: String
+    Default: my-gi-NextJS-app-poc-cluster
+    Description: A name for the cluster
+  ServiceName:
+    Type: String
+    Default: my-gi-NextJS-app-service
+    Description: A name for the service
+  ContainerName:
+    Type: String
+    Default: my-gi-NextJS-app
+    Description: A name for the Container
+  ContainerPort:
+    Type: Number
+    Default: 3000
+    Description: What port number the application inside the docker container is binding to
+  ContainerCpu:
+    Type: Number
+    Default: 256
+    Description: How much CPU to give the container. 1024 is 1 CPU
+  ContainerMemory:
+    Type: Number
+    Default: 512
+    Description: How much memory in megabytes to give the container
+  MySecurityGroup:
+    Type: String
+    Default: sg-0ad3f5bf6d56e8151
+    Description: Security Group to be used
+Resources:
+  MyECRRepository:
+    Type: 'AWS::ECR::Repository'
+    Properties:
+      RepositoryName: !Ref 'RepositoryName'
+    
+  MyECSCluster:
+    Type: 'AWS::ECS::Cluster'
+    Properties:
+      ClusterName: !Ref 'ClusterName'
+  
+  MyTaskDefinition:
+    Type: 'AWS::ECS::TaskDefinition'
+    Properties:
+      Family: !Ref 'ServiceName'
+      RequiresCompatibilities:
+        - 'FARGATE'
+      Cpu: !Ref 'ContainerCpu'
+      Memory: !Ref 'ContainerMemory'
+      NetworkMode: 'awsvpc'
+      ExecutionRoleArn: arn:aws:iam::128115030554:role/ecsTaskExecutionRole
+      # TaskRoleArn: <your_task_role_arn>
+
+      ContainerDefinitions:
+        - Name: !Ref 'ContainerName'
+          Image: !Join ['', [!Ref 'MyECRRepository', ':', 'latest']]
+          PortMappings:
+            - ContainerPort: !Ref 'ContainerPort'
+          Essential: true
+  
+  MyClusterService:
+    Type: 'AWS::ECS::Service'
+    Properties:
+      Cluster: !Ref 'MyECSCluster'
+      ServiceName: !Ref 'ServiceName'
+      TaskDefinition: !Ref 'MyTaskDefinition'
+      DesiredCount: 2
+      LaunchType: 'FARGATE'
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: 'ENABLED'
+          SecurityGroups:
+            - !Ref MySecurityGroup
+          Subnets:
+            - subnet-0b597d7e7dbd03718
+            - subnet-0b5916be75b287744
+            - subnet-0f260ae6a79311725
+
+Outputs:
+  ECRRepository:
+    Value: !Ref MyECRRepository
+  ECSCluster:
+    Value: !Ref MyECSCluster
+  TaskDefinition:
+    Value: !Ref MyTaskDefinition
+  ClusterService:
+    Value: !Ref MyClusterService
