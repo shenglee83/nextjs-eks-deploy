@@ -37,4 +37,4 @@ jobs:
           aws-region: ap-southeast-1
 
       # sam deploy
-      - run: sam package --template-file template-test.yaml --s3-bucket my-gi-estore --s3-prefix my-gi-github-action-testing/SourceCode --output-template-file package-test.yaml && aws cloudformation deploy --template-file package-test.yaml --stack-name my-gi-github-action-testing --capabilities CAPABILITY_NAMED_IAM --debug
+      - run: sam package --template-file ./ecsCloudformation.yaml --output-template-file ecsCloudformation-deploy.yaml && aws cloudformation deploy --template-file ecsCloudformation-deploy.yaml --stack-name ecs-poc-cf-deploy-stack --capabilities CAPABILITY_NAMED_IAM --debug
