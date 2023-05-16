@@ -1,0 +1,99 @@
+Resources:
+    MyECRRepository:
+      Type: AWS::ECR::Repository
+      Properties:
+        RepositoryName: my-ecr-repository
+  
+    MyECSTaskExecutionRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: my-ecs-task-execution-role
+        AssumeRolePolicyDocument:
+          Version: 2012-10-17
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service: ecs-tasks.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: my-ecs-task-execution-policy
+            PolicyDocument:
+              Version: 2012-10-17
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - ecr:GetAuthorizationToken
+                    - ecr:BatchCheckLayerAvailability
+                    - ecr:GetDownloadUrlForLayer
+                    - ecr:BatchGetImage
+                  Resource: '*'
+  
+    MyECSTaskRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: my-ecs-task-role
+        AssumeRolePolicyDocument:
+          Version: 2012-10-17
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service: ecs-tasks.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: my-ecs-task-policy
+            PolicyDocument:
+              Version: 2012-10-17
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - logs:CreateLogStream
+                    - logs:PutLogEvents
+                  Resource: arn:aws:logs:*:*:log-group:/ecs/*:log-stream:*
+                - Effect: Allow
+                  Action:
+                    - ecr:GetAuthorizationToken
+                    - ecr:BatchCheckLayerAvailability
+                    - ecr:GetDownloadUrlForLayer
+                    - ecr:BatchGetImage
+                  Resource: '*'
+  
+    MyECSService:
+      Type: AWS::ECS::Service
+      Properties:
+        Cluster: !Ref MyECSCluster
+        DesiredCount: 1
+        TaskDefinition: !Ref MyECSTaskDefinition
+        LaunchType: FARGATE
+        NetworkConfiguration:
+          AwsvpcConfiguration:
+            AssignPublicIp: ENABLED
+            SecurityGroups:
+              - !Ref MyECSSecurityGroup
+            Subnets:
+              - !Ref MyVpcSubnetA
+              - !Ref MyVpcSubnetB
+  
+    MyECSTaskDefinition:
+      Type: AWS::ECS::TaskDefinition
+      Properties:
+        Family: my-ecs-task-definition
+        ExecutionRoleArn: !GetAtt MyECSTaskExecutionRole.Arn
+        TaskRoleArn: !GetAtt MyECSTaskRole.Arn
+        NetworkMode: awsvpc
+        RequiresCompatibilities:
+          - FARGATE
+        ContainerDefinitions:
+          - Name: my-ecs-container
+            Image: !Join ['', [!Ref AWS::AccountId, '.dkr.ecr.', !Ref AWS::Region, '.amazonaws.com/', !Ref MyECRRepository, ':', !Sub '${PackageVersion}']]
+            PortMappings:
+              - ContainerPort: 80
+            Memory: 512
+            Cpu: 256
+  
+    MyECSCluster:
+      Type: AWS::ECS::Cluster
+      Properties:
+        ClusterName: my-ecs-cluster
+  
+    MyECSSecurity
+  

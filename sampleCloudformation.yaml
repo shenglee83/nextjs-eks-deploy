@@ -1,0 +1,104 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  MyECRRepository:
+    Type: 'AWS::ECR::Repository'
+    Properties:
+      RepositoryName: 'eSkin-travel-repo'
+
+  MyECSCluster:
+    Type: 'AWS::ECS::Cluster'
+    Properties:
+      ClusterName: 'eSkin-travel-cluster'
+
+  MyTaskDefinition:
+    Type: 'AWS::ECS::TaskDefinition'
+    Properties:
+      Family: 'eSkin-travel-task'
+      RequiresCompatibilities:
+        - 'FARGATE'
+      Cpu: '256'
+      Memory: '512'
+      NetworkMode: 'awsvpc'
+      ExecutionRoleArn: <your_execution_role_arn>
+      TaskRoleArn: <your_task_role_arn>
+
+      ContainerDefinitions:
+        - Name: 'eSkin-Travel'
+          Image: !Join ['', [!Ref 'MyECRRepository', ':', 'latest']]
+          PortMappings:
+            - ContainerPort: 3000
+          Essential: true
+
+  MySecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupName: 'eSkin-travel-security-group'
+      GroupDescription: 'Security group for eSkin-Travel container'
+      VpcId: <your_vpc_id>
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3000
+          ToPort: 3000
+          SourceSecurityGroupId: !Ref 'MyLoadBalancerSecurityGroup'
+
+  MyLoadBalancerSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupName: 'eSkin-travel-load-balancer-sg'
+      GroupDescription: 'Security group for eSkin-Travel load balancer'
+      VpcId: <your_vpc_id>
+
+  MyLoadBalancer:
+    Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
+    Properties:
+      Name: 'eSkin-travel-load-balancer'
+      Scheme: 'internet-facing'
+      Type: 'application'
+      IpAddressType: 'ipv4'
+      SecurityGroups:
+        - !Ref MyLoadBalancerSecurityGroup
+      Subnets:
+        - <your_subnet_id>
+  
+  # For reuse an existing Load Balancer
+  MyLoadBalancerListenerRule:
+    Type: 'AWS::ElasticLoadBalancingV2::ListenerRule'
+    Properties:
+      ListenerArn: <your_listener_arn>
+      Priority: 1
+      Conditions:
+        - Field: host-header
+          Values:
+            - 'example.com'
+      Actions:
+        - Type: forward
+          TargetGroupArn: <your_target_group_arn>
+  #--------------------------------------
+
+  MyClusterService:
+    Type: 'AWS::ECS::Service'
+    Properties:
+      Cluster: !Ref MyECSCluster
+      ServiceName: 'eSkin-travel-service'
+      TaskDefinition: !Ref MyTaskDefinition
+      DesiredCount: 2
+      LaunchType: 'FARGATE'
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: 'ENABLED'
+          SecurityGroups:
+            - !Ref MySecurityGroup
+          Subnets:
+            - <your_subnet_id>
+
+Outputs:
+  ECRRepository:
+    Value: !Ref MyECRRepository
+  ECSCluster:
+    Value: !Ref MyECSCluster
+  TaskDefinition:
+    Value: !Ref MyTaskDefinition
+  ClusterService:
+    Value: !Ref MyClusterService
+  ListenerRule1Arn:
+    Value: !Ref MyLoadBalancerListenerRule

@@ -1,0 +1,74 @@
+---
+    AWSTemplateFormatVersion: 2010-09-09
+    Resources:
+      ECRRepository:
+        Type: AWS::ECR::Repository
+        Properties:
+          RepositoryName: my-ecr-repo
+      ECSCluster:
+        Type: AWS::ECS::Cluster
+        Properties:
+          ClusterName: my-ecs-cluster
+      ECSTaskDefinition:
+        Type: AWS::ECS::TaskDefinition
+        Properties:
+          Family: my-ecs-task
+          Cpu: '256'
+          Memory: '512'
+          NetworkMode: awsvpc
+          RequiresCompatibilities:
+            - FARGATE
+          ExecutionRoleArn: !Ref ECSTaskExecutionRole
+          TaskRoleArn: !Ref ECSTaskRole
+          ContainerDefinitions:
+            - Name: my-container
+              Image: !Join ['', [!Ref 'AWS::AccountId', '.dkr.ecr.', !Ref 'AWS::Region', '.amazonaws.com/', !Ref ECRRepository, ':latest']]
+              PortMappings:
+                - ContainerPort: 80
+                  Protocol: tcp
+      ECSTaskRole:
+        Type: AWS::IAM::Role
+        Properties:
+          RoleName: my-ecs-task-role
+          AssumeRolePolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Principal:
+                  Service:
+                    - ecs-tasks.amazonaws.com
+                Action:
+                  - sts:AssumeRole
+          Policies:
+            - PolicyName: my-ecs-task-policy
+              PolicyDocument:
+                Version: '2012-10-17'
+                Statement:
+                  - Effect: Allow
+                    Action:
+                      - logs:CreateLogStream
+                      - logs:PutLogEvents
+                    Resource: arn:aws:logs:*:*:*
+      ECSTaskExecutionRole:
+        Type: AWS::IAM::Role
+        Properties:
+          RoleName: my-ecs-task-execution-role
+          AssumeRolePolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Principal:
+                  Service:
+                    - ecs-tasks.amazonaws.com
+                Action:
+                  - sts:AssumeRole
+          Policies:
+            - PolicyName: my-ecs-task-execution-policy
+              PolicyDocument:
+                Version: '2012-10-17'
+                Statement:
+                  - Effect: Allow
+                    Action:
+                      - ecr:GetAuthorizationToken
+                    Resource: '*'
+    
