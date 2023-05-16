@@ -37,38 +37,38 @@ Resources:
   MyECRRepository:
     Type: 'AWS::ECR::Repository'
     Properties:
-      RepositoryName: !Ref 'RepositoryName'
+      RepositoryName: !Ref RepositoryName
     
   MyECSCluster:
     Type: 'AWS::ECS::Cluster'
     Properties:
-      ClusterName: !Ref 'ClusterName'
+      ClusterName: !Ref ClusterName
   
   MyTaskDefinition:
     Type: 'AWS::ECS::TaskDefinition'
     Properties:
-      Family: !Ref 'ServiceName'
+      Family: !Ref ServiceName
       RequiresCompatibilities:
         - 'FARGATE'
-      Cpu: !Ref 'ContainerCpu'
-      Memory: !Ref 'ContainerMemory'
+      Cpu: !Ref ContainerCpu
+      Memory: !Ref ContainerMemory
       NetworkMode: 'awsvpc'
       ExecutionRoleArn: arn:aws:iam::128115030554:role/ecsTaskExecutionRole
       # TaskRoleArn: <your_task_role_arn>
 
       ContainerDefinitions:
-        - Name: !Ref 'ContainerName'
+        - Name: !Ref ContainerName
           Image: !Join ['', [!Ref 'MyECRRepository', ':', 'latest']]
           PortMappings:
-            - ContainerPort: !Ref 'ContainerPort'
+            - ContainerPort: !Ref ContainerPort
           Essential: true
   
   MyClusterService:
     Type: 'AWS::ECS::Service'
     Properties:
-      Cluster: !Ref 'MyECSCluster'
-      ServiceName: !Ref 'ServiceName'
-      TaskDefinition: !Ref 'MyTaskDefinition'
+      Cluster: !Ref MyECSCluster
+      ServiceName: !Ref ServiceName
+      TaskDefinition: !Ref MyTaskDefinition
       DesiredCount: 2
       LaunchType: 'FARGATE'
       NetworkConfiguration:
