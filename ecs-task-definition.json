@@ -1,9 +1,9 @@
 {
-  "family": "nextjs-eks-deploy",
+  "family": "my-gi-NextJS-app-service",
   "networkMode": "awsvpc",
   "containerDefinitions": [
     {
-      "name": "nextjs-container",
+      "name": "my-gi-NextJS-app",
       "image": "128115030554.dkr.ecr.ap-southeast-1.amazonaws.com/next_js_poc:latest",
       "portMappings": [
         {
