@@ -68,7 +68,7 @@ Resources:
     Properties:
       Cluster: !Ref MyECSCluster
       ServiceName: !Ref ServiceName
-      TaskDefinition: !Ref MyECSTaskDefinition
+      TaskDefinition: !Ref MyTaskDefinition
       DesiredCount: 2
       LaunchType: 'FARGATE'
       NetworkConfiguration:
