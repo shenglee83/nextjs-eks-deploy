@@ -44,27 +44,48 @@ Resources:
     Properties:
       ClusterName: !Ref ClusterName
   
-  MyClusterService:
-    Type: 'AWS::ECS::Service'
-    Properties:
-      Cluster: !Ref MyECSCluster
-      ServiceName: !Ref ServiceName
-      DesiredCount: 2
-      LaunchType: 'FARGATE'
-      NetworkConfiguration:
-        AwsvpcConfiguration:
-          AssignPublicIp: 'ENABLED'
-          SecurityGroups:
-            - !Ref MySecurityGroup
-          Subnets:
-            - subnet-0b597d7e7dbd03718
-            - subnet-0b5916be75b287744
-            - subnet-0f260ae6a79311725
+  # MyTaskDefinition:
+  #   Type: 'AWS::ECS::TaskDefinition'
+  #   Properties:
+  #     Family: !Ref ServiceName
+  #     RequiresCompatibilities:
+  #       - 'FARGATE'
+  #     Cpu: !Ref ContainerCpu
+  #     Memory: !Ref ContainerMemory
+  #     NetworkMode: 'awsvpc'
+  #     ExecutionRoleArn: arn:aws:iam::128115030554:role/ecsTaskExecutionRole
+  #     # TaskRoleArn: <your_task_role_arn>
+
+  #     ContainerDefinitions:
+  #       - Name: !Ref ContainerName
+  #         Image: !Join ['', [!Ref 'MyECRRepository', ':', 'latest']]
+  #         PortMappings:
+  #           - ContainerPort: !Ref ContainerPort
+  #         Essential: true
+  
+  # MyClusterService:
+  #   Type: 'AWS::ECS::Service'
+  #   Properties:
+  #     Cluster: !Ref MyECSCluster
+  #     ServiceName: !Ref ServiceName
+  #     DesiredCount: 2
+  #     LaunchType: 'FARGATE'
+  #     NetworkConfiguration:
+  #       AwsvpcConfiguration:
+  #         AssignPublicIp: 'ENABLED'
+  #         SecurityGroups:
+  #           - !Ref MySecurityGroup
+  #         Subnets:
+  #           - subnet-0b597d7e7dbd03718
+  #           - subnet-0b5916be75b287744
+  #           - subnet-0f260ae6a79311725
 
 Outputs:
   ECRRepository:
     Value: !Ref MyECRRepository
   ECSCluster:
     Value: !Ref MyECSCluster
-  ClusterService:
-    Value: !Ref MyClusterService
+  # TaskDefinition:
+  #   Value: !Ref MyTaskDefinition
+  # ClusterService:
+  #   Value: !Ref MyClusterService
