@@ -44,24 +44,24 @@ Resources:
     Properties:
       ClusterName: !Ref ClusterName
   
-  MyTaskDefinition:
-    Type: 'AWS::ECS::TaskDefinition'
-    Properties:
-      Family: !Ref ServiceName
-      RequiresCompatibilities:
-        - 'FARGATE'
-      Cpu: !Ref ContainerCpu
-      Memory: !Ref ContainerMemory
-      NetworkMode: 'awsvpc'
-      ExecutionRoleArn: arn:aws:iam::128115030554:role/ecsTaskExecutionRole
-      # TaskRoleArn: <your_task_role_arn>
+  # MyTaskDefinition:
+  #   Type: 'AWS::ECS::TaskDefinition'
+  #   Properties:
+  #     Family: !Ref ServiceName
+  #     RequiresCompatibilities:
+  #       - 'FARGATE'
+  #     Cpu: !Ref ContainerCpu
+  #     Memory: !Ref ContainerMemory
+  #     NetworkMode: 'awsvpc'
+  #     ExecutionRoleArn: arn:aws:iam::128115030554:role/ecsTaskExecutionRole
+  #     # TaskRoleArn: <your_task_role_arn>
 
-      ContainerDefinitions:
-        - Name: !Ref ContainerName
-          Image: !Join ['', [!Ref 'MyECRRepository', ':', 'latest']]
-          PortMappings:
-            - ContainerPort: !Ref ContainerPort
-          Essential: true
+  #     ContainerDefinitions:
+  #       - Name: !Ref ContainerName
+  #         Image: !Join ['', [!Ref 'MyECRRepository', ':', 'latest']]
+  #         PortMappings:
+  #           - ContainerPort: !Ref ContainerPort
+  #         Essential: true
   
   MyClusterService:
     Type: 'AWS::ECS::Service'
@@ -86,7 +86,7 @@ Outputs:
     Value: !Ref MyECRRepository
   ECSCluster:
     Value: !Ref MyECSCluster
-  TaskDefinition:
-    Value: !Ref MyTaskDefinition
+  # TaskDefinition:
+  #   Value: !Ref MyTaskDefinition
   ClusterService:
     Value: !Ref MyClusterService

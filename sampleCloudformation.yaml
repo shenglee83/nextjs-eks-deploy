@@ -3,17 +3,17 @@ Resources:
   MyECRRepository:
     Type: 'AWS::ECR::Repository'
     Properties:
-      RepositoryName: 'eSkin-travel-repo'
+      RepositoryName: eskin-travel-repo
 
   MyECSCluster:
     Type: 'AWS::ECS::Cluster'
     Properties:
-      ClusterName: 'eSkin-travel-cluster'
+      ClusterName: eSkin-travel-cluster
 
   MyTaskDefinition:
     Type: 'AWS::ECS::TaskDefinition'
     Properties:
-      Family: 'eSkin-travel-task'
+      Family: eSkin-travel-task
       RequiresCompatibilities:
         - 'FARGATE'
       Cpu: '256'
