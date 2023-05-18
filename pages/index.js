@@ -15,6 +15,8 @@ export default function Home() {
           This application is deployed to AWS ECS Fargate launch type
       </h1>
 
+      <p>This line is {process.env.NEXT_PUBLIC_FE_VARIABLE}</p>
+
       <main className={styles.main}>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>

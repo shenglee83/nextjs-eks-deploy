@@ -21,7 +21,14 @@
           "awslogs-region": "ap-southeast-1",
           "awslogs-stream-prefix": "ecs"
         }
-      }
+      },
+      "environment" :[
+        {
+          "NEXT_PUBLIC_FE_VARIABLE": "From NEXT_PUBLIC prefix environment variable"
+        },{
+          "API_VARIABLE": "value from environment vaiable"
+        }
+      ]
     }
   ],
   "executionRoleArn": "arn:aws:iam::128115030554:role/ecsTaskExecutionRole",
