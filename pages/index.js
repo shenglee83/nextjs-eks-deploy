@@ -2,8 +2,10 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
-export default function Home() {
-  console.log(`Testing: ${process.env.NEXT_PUBLIC_FE_VARIABLE}`);
+export default function Home(props) {
+  console.log(`Testing NEXT_PUBLIC_FE_VARIABLE: ${process.env.NEXT_PUBLIC_FE_VARIABLE}`);
+  console.log(`Testing FE_VARIABLE: ${props.env.FE_VARIABLE}`);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -17,6 +19,7 @@ export default function Home() {
       </h1>
 
       <p>This line is {process.env.NEXT_PUBLIC_FE_VARIABLE}</p>
+      <p>This line from Get Server Side props: {props.env.FE_VARIABLE}</p>
 
       <main className={styles.main}>
         <h1 className={styles.title}>
@@ -77,3 +80,13 @@ export default function Home() {
     </div>
   )
 }
+
+export const getServerSideProps = async () => {
+  return{ 
+    props: {
+      env: {
+        FE_VARIABLE: process.env.FE_VARIABLE
+      }
+    }
+  };
+};
