@@ -25,7 +25,7 @@
       "environmentFiles": [
         {
           "type": "s3",
-          "value": "s3://my-gi-ecs-poc-bucket/environment-variables/"
+          "value": "s3://my-gi-ecs-poc-bucket/environment-variables/env-vars.txt"
         }
       ]
     }
