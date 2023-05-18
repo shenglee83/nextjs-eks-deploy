@@ -22,11 +22,14 @@
           "awslogs-stream-prefix": "ecs"
         }
       },
-      "environment" :[
+      "environment": [
         {
-          "NEXT_PUBLIC_FE_VARIABLE": "From NEXT_PUBLIC prefix environment variable"
-        },{
-          "API_VARIABLE": "value from environment vaiable"
+          "name": "NEXT_PUBLIC_FE_VARIABLE",
+          "value": "From NEXT_PUBLIC prefix environment variable"
+        },
+        {
+          "name": "API_VARIABLE",
+          "value": "value from environment vaiable"
         }
       ]
     }
