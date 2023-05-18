@@ -4,7 +4,7 @@
   "containerDefinitions": [
     {
       "name": "my-gi-NextJS-app",
-      "image": "128115030554.dkr.ecr.ap-southeast-1.amazonaws.com/next_js_poc:latest",
+      "image": "128115030554.dkr.ecr.ap-southeast-1.amazonaws.com/next_js_poc:$(cat /app/package.json | jq -r '.version')",
       "portMappings": [
         {
           "containerPort": 3000,
