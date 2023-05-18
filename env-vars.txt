@@ -1,0 +1,2 @@
+NEXT_PUBLIC_FE_VARIABLE=From NEXT_PUBLIC prefix environment variable
+API_VARIABLE=value from environment vaiable
