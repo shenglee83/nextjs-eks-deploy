@@ -1,10 +1,13 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import getConfig from 'next/config';
 
-export default function Home(props) {
+const {publicRuntimeConfig} = getConfig();
+
+export default function Home() {
   console.log(`Testing NEXT_PUBLIC_FE_VARIABLE: ${process.env.NEXT_PUBLIC_FE_VARIABLE}`);
-  console.log(`Testing FE_VARIABLE: ${props.env.FE_VARIABLE}`);
+  console.log(`Testing FE_VARIABLE: ${publicRuntimeConfig.FE_VARIABLE}`);
 
   return (
     <div className={styles.container}>
@@ -19,7 +22,7 @@ export default function Home(props) {
       </h1>
 
       <p>This line is {process.env.NEXT_PUBLIC_FE_VARIABLE}</p>
-      <p>This line from Get Server Side props: {props.env.FE_VARIABLE}</p>
+      <p>This line from Get Server Side props: {publicRuntimeConfig.FE_VARIABLE}</p>
 
       <main className={styles.main}>
         <h1 className={styles.title}>
@@ -81,12 +84,12 @@ export default function Home(props) {
   )
 }
 
-export const getServerSideProps = async () => {
-  return{ 
-    props: {
-      env: {
-        FE_VARIABLE: process.env.FE_VARIABLE
-      }
-    }
-  };
-};
+// export const getServerSideProps = async () => {
+//   return{ 
+//     props: {
+//       env: {
+//         FE_VARIABLE: process.env.FE_VARIABLE
+//       }
+//     }
+//   };
+// };
