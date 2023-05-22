@@ -44,10 +44,13 @@ jobs:
         id: package-version
         uses: martinbeentjes/npm-get-version-action@main
       
-      # - name: Set up Build Time environment variables
-      #   run: |
-      #     cp .env.build .env
-      #     echo "NEXT_PUBLIC_FE_VARIABLE=${{secrets.NEXT_PUBLIC_FE_VARIABLE}}" >> .env
+      - name: Set up Build Time environment variables
+        env: 
+          NEXT_PUBLIC_FE_VARIABLE: ${{ secrets.NEXT_PUBLIC_FE_VARIABLE }}
+        run: echo "NEXT_PUBLIC_FE_VARIABLE=${NEXT_PUBLIC_FE_VARIABLE}" >> .env
+        # run: |
+        #   cp .env.build .env
+        #   echo "NEXT_PUBLIC_FE_VARIABLE=${NEXT_PUBLIC_FE_VARIABLE}" >> .env
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -67,12 +70,12 @@ jobs:
           ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
           ECR_IMAGE_TAG: ${{ github.sha }}
           VERSION: ${{steps.package-version.outputs.current-version}}
-          NEXT_PUBLIC_FE_VARIABLE: ${{ secrets.NEXT_PUBLIC_FE_VARIABLE }}
         run: |
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
           docker build \
+            --build-arg NEXT_PUBLIC_FE_VARIABLE=${NEXT_PUBLIC_FE_VARIABLE } \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION .
           docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$VERSION" >> $GITHUB_OUTPUT
