@@ -21,8 +21,8 @@ export default function Home() {
           This application is deployed to AWS ECS Fargate launch type
       </h1>
 
-      <p>This line is {process.env.NEXT_PUBLIC_FE_VARIABLE}</p>
-      <p>This line from Get Server Side props: {publicRuntimeConfig.FE_VARIABLE}</p>
+      <p>NEXT_PUBLIC variable in Github Actions Secrets {process.env.NEXT_PUBLIC_VARIABLE_ONE}</p>
+      <p>NEXT_PUBLIC variable in Github Actions Variable {process.env.NEXT_PUBLIC_VARIABLE_TWO}</p>
 
       <main className={styles.main}>
         <h1 className={styles.title}>
