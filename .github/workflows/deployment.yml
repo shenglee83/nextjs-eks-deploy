@@ -75,7 +75,7 @@ jobs:
           # push it to ECR so that it can
           # be deployed to ECS.
           docker build \
-            --build-arg NEXT_PUBLIC_FE_VARIABLE=${NEXT_PUBLIC_FE_VARIABLE } \
+            --build-arg NEXT_PUBLIC_FE_VARIABLE=${NEXT_PUBLIC_FE_VARIABLE} \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION .
           docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$VERSION" >> $GITHUB_OUTPUT
