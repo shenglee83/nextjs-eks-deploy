@@ -47,7 +47,7 @@ jobs:
       - name: Set up Build Time environment variables
         env: 
           NEXT_PUBLIC_VARIABLE_ONE: ${{ secrets.NEXT_PUBLIC_VARIABLE_ONE }}
-          NEXT_PUBLIC_VARIABLE_TWO: ${{ env.NEXT_PUBLIC_VARIABLE_TWO }}
+          NEXT_PUBLIC_VARIABLE_TWO: ${{ vars.NEXT_PUBLIC_VARIABLE_TWO }}
         run: |
           echo "NEXT_PUBLIC_VARIABLE_ONE=${NEXT_PUBLIC_VARIABLE_ONE}" >> .env
           echo "NEXT_PUBLIC_VARIABLE_TWO=${NEXT_PUBLIC_VARIABLE_TWO}" >> .env
