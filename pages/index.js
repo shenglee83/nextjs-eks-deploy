@@ -21,7 +21,7 @@ export default function Home() {
           This application is deployed to AWS ECS Fargate launch type
       </h1>
 
-      <p>NEXT_PUBLIC variable in Github Actions Secrets {process.env.NEXT_PUBLIC_VARIABLE_ONE}</p>
+//       <p>NEXT_PUBLIC variable in Github Actions Secrets {process.env.NEXT_PUBLIC_VARIABLE_ONE}</p>
       <p>NEXT_PUBLIC variable in Github Actions Variable {process.env.NEXT_PUBLIC_VARIABLE_TWO}</p>
 
       <main className={styles.main}>
