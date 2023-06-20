@@ -52,7 +52,7 @@ jobs:
         run: |
           echo "NEXT_PUBLIC_VARIABLE_ONE=${NEXT_PUBLIC_VARIABLE_ONE}" >> .env
           echo "NEXT_PUBLIC_VARIABLE_TWO=${NEXT_PUBLIC_VARIABLE_TWO}" >> .env
-          echo "ENV=${ENV}" >> .env
+          echo "ENV=${env}" >> .env
 #       - name: Configure AWS credentials
 #         uses: aws-actions/configure-aws-credentials@v1
 #         with:
