@@ -25,7 +25,8 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    environment: sandbox
+    environment: sandbox # The value will be production or sandbox, following the environment name configured in Settings -> Environments
+                         # Use "vars" context to read the environment variable values setup in either sandbox or production environment.
 
     strategy:
       matrix:
