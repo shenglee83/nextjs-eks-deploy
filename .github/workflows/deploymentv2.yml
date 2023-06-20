@@ -48,12 +48,12 @@ jobs:
         env: 
           NEXT_PUBLIC_VARIABLE_ONE: ${{ secrets.NEXT_PUBLIC_VARIABLE_ONE }}
           NEXT_PUBLIC_VARIABLE_TWO: ${{ env.NEXT_PUBLIC_VARIABLE_TWO }}
-          ENVIRONMENT: ${{ vars.ENVIRONMENT_STAGE }}
+          SANDBOX_ENV: ${{ vars.NEXT_PUBLIC_VARIABLE_TWO }}
         run: |
           echo "NEXT_PUBLIC_VARIABLE_ONE=${NEXT_PUBLIC_VARIABLE_ONE}" >> .env
           echo "NEXT_PUBLIC_VARIABLE_TWO=${NEXT_PUBLIC_VARIABLE_TWO}" >> .env
-          echo "ENVIRONMENT=${ENVIRONMENT}" >> .env
-          echo "variable from shell environment : ${ENVIRONMENT}"
+          echo "SANDBOX_ENV=${SANDBOX_ENV}" >> .env
+          echo "variable from shell environment : ${SANDBOX_ENV}"
 #       - name: Configure AWS credentials
 #         uses: aws-actions/configure-aws-credentials@v1
 #         with:
