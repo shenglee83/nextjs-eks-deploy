@@ -1,13 +1,13 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Node.js CI V1
+name: Node.js CI Sandbox Deployment Workflow
 
 on:
   # push:
-  #   branches: ['master']
+  #   branches: ['develop']
   pull_request:
-    branches: ['master']
+    branches: ['develop']
   # Allows you to run this workflow manually from the Actions tab 
   workflow_dispatch:
 
@@ -22,12 +22,12 @@ env:
                                                            # containerDefinitions section of your task definition
   AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
 jobs:
-  deploy:
-    name: Deploy
+  build:
+    name: Build
     runs-on: ubuntu-latest
-    environment: production
+    environment: sandbox # The value will be production or sandbox, following the environment name configured in Settings -> Environments
+                            # Use "vars" context to read the environment variable values setup in either sandbox or production environment.
 
     strategy:
       matrix:
@@ -48,7 +48,7 @@ jobs:
       
       - name: Set up Build Time environment variables
         env: 
-          NEXT_PUBLIC_VARIABLE_ONE: ${{ vars.NEXT_PUBLIC_VARIABLE_ONE }}
+          NEXT_PUBLIC_VARIABLE_ONE: ${{ vars.NEXT_PUBLIC_VARIABLE_ONE }} # Access the Environment Variables using "vars" context
         run: |
           echo "NEXT_PUBLIC_VARIABLE_ONE=${NEXT_PUBLIC_VARIABLE_ONE}" >> .env
 
@@ -74,6 +74,8 @@ jobs:
       #     # Build a docker container and
       #     # push it to ECR so that it can
       #     # be deployed to ECS.
+      #     # During Build, We need to pass in Build Time Environment Variable to --build-arg 
+      #     # -ENV in Docker context is meant for Run time Environment Variable
       #     docker build \
       #       --build-arg NEXT_PUBLIC_VARIABLE_ONE=${NEXT_PUBLIC_VARIABLE_ONE} \
       #       --build-arg NEXT_PUBLIC_VARIABLE_TWO=${NEXT_PUBLIC_VARIABLE_TWO} \
