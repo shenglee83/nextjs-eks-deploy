@@ -3,7 +3,7 @@
   "networkMode": "awsvpc",
   "containerDefinitions": [
     {
-      "name": "my-gi-NextJS-app",
+      "name": "my-gi-NextJS-app-develop",
       "image": "128115030554.dkr.ecr.ap-southeast-1.amazonaws.com/next_js_poc:$(cat /app/package.json | jq -r '.version')",
       "portMappings": [
         {
