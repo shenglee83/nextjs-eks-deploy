@@ -6,8 +6,7 @@ import getConfig from 'next/config';
 const {publicRuntimeConfig} = getConfig();
 
 export default function Home() {
-  console.log(`Testing NEXT_PUBLIC_FE_VARIABLE: ${process.env.NEXT_PUBLIC_FE_VARIABLE}`);
-  console.log(`Testing FE_VARIABLE: ${publicRuntimeConfig.FE_VARIABLE}`);
+  console.log(`Testing NEXT_PUBLIC_FE_VARIABLE: ${process.env.NEXT_PUBLIC_VARIABLE_ONE}`);
 
   return (
     <div className={styles.container}>
@@ -21,8 +20,8 @@ export default function Home() {
           This application is deployed to AWS ECS Fargate launch type
       </h1>
 
-      <p>NEXT_PUBLIC variable in Github Actions Secrets {process.env.NEXT_PUBLIC_VARIABLE_ONE}</p>
-      <p>NEXT_PUBLIC variable in Github Actions Variable {process.env.NEXT_PUBLIC_VARIABLE_TWO}</p>
+      {/* <p>NEXT_PUBLIC variable in Github Actions Secrets {process.env.NEXT_PUBLIC_VARIABLE_ONE}</p> */}
+      <p>NEXT_PUBLIC variable in Github Actions Variable {process.env.NEXT_PUBLIC_VARIABLE_ONE}</p>
 
       <main className={styles.main}>
         <h1 className={styles.title}>

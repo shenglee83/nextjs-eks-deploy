@@ -3,19 +3,19 @@ Description: Deploy a ECS service on AWS Fargate, using image build and stored i
 Parameters:
   RepositoryName:
     Type: String
-    Default: next_js_poc
+    Default: my-gi-NextJS-poc-repo-develop
     Description: A name for the ECR Repository
   ClusterName:
     Type: String
-    Default: my-gi-NextJS-app-poc-cluster
+    Default: my-gi-NextJS-app-poc-cluster-develop
     Description: A name for the cluster
   ServiceName:
     Type: String
-    Default: my-gi-NextJS-app-service
+    Default: my-gi-NextJS-app-service-develop
     Description: A name for the service
   ContainerName:
     Type: String
-    Default: my-gi-NextJS-app
+    Default: my-gi-NextJS-app-develop
     Description: A name for the Container
   ContainerPort:
     Type: Number
@@ -34,12 +34,12 @@ Parameters:
     Default: sg-0ad3f5bf6d56e8151
     Description: Security Group to be used
 Resources:
-  MyECRRepository:
+  MyECRDevelopRepository:
     Type: 'AWS::ECR::Repository'
     Properties:
       RepositoryName: !Ref RepositoryName
     
-  MyECSCluster:
+  MyECSDevelopCluster:
     Type: 'AWS::ECS::Cluster'
     Properties:
       ClusterName: !Ref ClusterName
@@ -83,9 +83,9 @@ Resources:
 
 Outputs:
   ECRRepository:
-    Value: !Ref MyECRRepository
+    Value: !Ref MyECRDevelopRepository
   ECSCluster:
-    Value: !Ref MyECSCluster
+    Value: !Ref MyECSDevelopCluster
   # TaskDefinition:
   #   Value: !Ref MyTaskDefinition
   # ClusterService:
