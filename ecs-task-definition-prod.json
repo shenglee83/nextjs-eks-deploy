@@ -1,10 +1,10 @@
 {
-  "family": "my-gi-NextJS-app-service",
+  "family": "my-gi-NextJS-app-service-prod",
   "networkMode": "awsvpc",
   "containerDefinitions": [
     {
-      "name": "my-gi-NextJS-app",
-      "image": "128115030554.dkr.ecr.ap-southeast-1.amazonaws.com/next_js_poc_repo_develop:$(cat /app/package.json | jq -r '.version')",
+      "name": "my-gi-NextJS-app-prod",
+      "image": "128115030554.dkr.ecr.ap-southeast-1.amazonaws.com/next_js_poc_repo_prod:$(cat /app/package.json | jq -r '.version')",
       "portMappings": [
         {
           "containerPort": 3000,

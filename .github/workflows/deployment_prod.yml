@@ -16,7 +16,7 @@ env:
   ECR_REPOSITORY: ${{secrets.MY_ECR_REPOSITORY}}           # set this to your Amazon ECR repository name
   ECS_SERVICE: ${{secrets.MY_ECS_SERVICE}}                 # set this to your Amazon ECS service name
   ECS_CLUSTER: ${{secrets.MY_ECS_CLUSTER}}                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: ${{secrets.MY_ECS_TASK_DEFINITION}} # set this to the path to your Amazon ECS task definition
+  ECS_TASK_DEFINITION_FILE: ${{secrets.MY_ECS_TASK_DEFINITION_FILE}} # set this to the path to your Amazon ECS task definition
                                                            # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: ${{secrets.MY_CONTAINER_NAME}}           # set this to the name of the container in the
                                                            # containerDefinitions section of your task definition
@@ -77,7 +77,6 @@ jobs:
           # -ENV in Docker context is meant for Run time Environment Variable
           docker build \
             --build-arg NEXT_PUBLIC_VARIABLE_ONE=${NEXT_PUBLIC_VARIABLE_ONE} \
-            --build-arg NEXT_PUBLIC_VARIABLE_TWO=${NEXT_PUBLIC_VARIABLE_TWO} \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION .
           docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$VERSION" >> $GITHUB_OUTPUT
@@ -92,7 +91,7 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
         with:
-          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          task-definition: ${{ env.ECS_TASK_DEFINITION_FILE }}
           container-name: ${{ env.CONTAINER_NAME }}
           image: ${{ steps.build-image.outputs.image }}
       
