@@ -3,10 +3,8 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import getConfig from 'next/config';
 
-const {publicRuntimeConfig} = getConfig();
-
 export default function Home() {
-  console.log(`Testing NEXT_PUBLIC_FE_VARIABLE: ${process.env.NEXT_PUBLIC_VARIABLE_ONE}`);
+  console.log(`Testing NEXT_PUBLIC_VARIABLE_ONE: ${process.env.NEXT_PUBLIC_VARIABLE_ONE}`);
 
   return (
     <div className={styles.container}>
@@ -27,11 +25,6 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
 
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
