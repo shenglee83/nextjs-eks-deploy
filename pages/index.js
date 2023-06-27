@@ -2,9 +2,15 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import getConfig from 'next/config';
+import {useEffect, useState} from 'react';
 
 export default function Home() {
   console.log(`Testing NEXT_PUBLIC_VARIABLE_ONE: ${process.env.NEXT_PUBLIC_VARIABLE_ONE}`);
+
+  const [hostname, setHostname] = useState('');
+  useEffect(() => {
+    setHostname(window.location.href);
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -16,6 +22,10 @@ export default function Home() {
       
       <h1 className={styles.title}>
           This application is deployed to AWS ECS Fargate launch type
+      </h1>
+
+      <h1 className={styles.title}>
+        Hosted on {hostname}
       </h1>
 
       {/* <p>NEXT_PUBLIC variable in Github Actions Secrets {process.env.NEXT_PUBLIC_VARIABLE_ONE}</p> */}
