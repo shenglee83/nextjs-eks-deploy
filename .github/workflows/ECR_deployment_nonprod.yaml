@@ -1,4 +1,4 @@
-name: 'Deploy to Non Prod AWS CloudFormation'
+name: 'ECR Repo Deployment to Non Prod via AWS CloudFormation'
 
 on:
   # push:
