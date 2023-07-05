@@ -79,6 +79,6 @@ Resources:
             - subnet-0f260ae6a79311725
 Outputs:
   ECSCluster:
-    Value: !Ref MyECSDevelopCluster
+    Value: !Ref MyECSCluster
   ClusterService:
     Value: !Ref MyClusterService
