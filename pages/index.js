@@ -4,22 +4,12 @@ import styles from '../styles/Home.module.css';
 import getConfig from 'next/config';
 import {useEffect, useState} from 'react';
 
-<<<<<<< Updated upstream
-export default function Home() {
-  console.log(`Testing NEXT_PUBLIC_VARIABLE_ONE: ${process.env.NEXT_PUBLIC_VARIABLE_ONE}`);
-=======
 const { publicRuntimeConfig } = getConfig();
 
 export default function Home() {
   console.log(
     `Testing NEXT_PUBLIC_FE_VARIABLE: ${process.env.NEXT_PUBLIC_VARIABLE_ONE}`
   );
-
-  const [hostname, setHostname] = useState('');
-  useEffect(() => {
-    setHostname(window.location.href);
-  }, []);
->>>>>>> Stashed changes
 
   const [hostname, setHostname] = useState('');
   useEffect(() => {
