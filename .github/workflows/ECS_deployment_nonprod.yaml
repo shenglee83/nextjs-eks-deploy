@@ -49,4 +49,4 @@ jobs:
           VERSION: ${{steps.package-version.outputs.current-version}}
 
       # sam deploy
-      - run: sam package --template-file ./IaC/NonProd/ECSCluster.yaml --s3-bucket my-gi-ecs-poc-bucket --output-template-file ecs-develop-deploy.yaml && aws cloudformation deploy --template-file ecs-develop-deploy.yaml \n --stack-name my-gi-nextjs-deploy-stack-nonprod --capabilities CAPABILITY_NAMED_IAM --parameter-override  ECRRepoName=${ECR_REPO_NAME} ClusterName=${CLUSTER_NAME} ContainerName=${CONTAINER_NAME} ServiceName=${SERVICE_NAME} Version=${VERSION} --debug
+      - run: sam package --template-file ./IaC/NonProd/ECSCluster.yaml --s3-bucket my-gi-ecs-poc-bucket --output-template-file ecs-develop-deploy.yaml && aws cloudformation deploy --template-file ecs-develop-deploy.yaml --stack-name my-gi-nextjs-deploy-stack-nonprod --capabilities CAPABILITY_NAMED_IAM --parameter-override  ECRRepoName=${ECR_REPO_NAME} ClusterName=${CLUSTER_NAME} ContainerName=${CONTAINER_NAME} ServiceName=${SERVICE_NAME} Version=${VERSION} --debug
