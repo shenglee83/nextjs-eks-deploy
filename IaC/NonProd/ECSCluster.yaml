@@ -1,21 +1,26 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: Deploy a ECS service on AWS Fargate, using image build and stored in AWS ECR Container.
 Parameters:
-  ECRRepo:
+  ECRRepoName:
     Type: String
     Description: Name of the ECR Repo
   ClusterName:
     Type: String
-    Default: my-gi-NextJS-app-poc-cluster-develop
     Description: A name for the cluster
   ContainerName:
     Type: String
-    Default: my-gi-NextJS-app-develop
     Description: A name for the Container
   ServiceName:
     Type: String
-    Default: my-gi-NextJS-app-service-develop
     Description: A name for the service
+  ContainerCpu:
+    Type: Number
+    Default: 256
+    Description: How much CPU to give the container. 1024 is 1 CPU
+  ContainerMemory:
+    Type: Number
+    Default: 512
+    Description: How much memory in megabytes to give the container
   ContainerPort:
     Type: Number
     Default: 3000
@@ -29,7 +34,7 @@ Parameters:
     Description: Security Group to be used
 
 Resources:
-  MyECSDevelopCluster:
+  MyECSCluster:
     Type: 'AWS::ECS::Cluster'
     Properties:
       ClusterName: !Ref ClusterName
@@ -50,7 +55,7 @@ Resources:
 
       ContainerDefinitions:
         - Name: !Ref ContainerName
-          Image: !Join ['', [!Ref 'ECRRepo', ':', !Ref 'Version']]
+          Image: !Join ['', [!Ref 'ECRRepoName', ':', !Ref 'Version']]
           PortMappings:
             - ContainerPort: !Ref ContainerPort
           Essential: true
@@ -61,7 +66,7 @@ Resources:
       Cluster: !Ref MyECSCluster
       ServiceName: !Ref ServiceName
       TaskDefinition: !Ref MyTaskDefinition
-      DesiredCount: 2
+      DesiredCount: 1
       LaunchType: 'FARGATE'
       NetworkConfiguration:
         AwsvpcConfiguration:
