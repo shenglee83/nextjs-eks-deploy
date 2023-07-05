@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Deploy a ECS service on AWS Fargate, using image build and stored in AWS ECR Container.
+Parameters:
+  RepositoryName:
+    Type: String
+    Description: A name for the ECR Repository
+Resources:
+  MyECRRepository:
+    Type: 'AWS::ECR::Repository'
+    Properties:
+      RepositoryName: !Ref RepositoryName
+Outputs:
+  ECRRepository:
+    Value: !Ref MyECRRepository

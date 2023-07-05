@@ -78,7 +78,6 @@ jobs:
           # -ENV in Docker context is meant for Run time Environment Variable
           docker build \
             --build-arg NEXT_PUBLIC_VARIABLE_ONE=${NEXT_PUBLIC_VARIABLE_ONE} \
-            --build-arg NEXT_PUBLIC_VARIABLE_TWO=${NEXT_PUBLIC_VARIABLE_TWO} \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION .
           docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$VERSION" >> $GITHUB_OUTPUT
