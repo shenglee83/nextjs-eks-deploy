@@ -33,28 +33,28 @@ Resources:
 
 # During 1st new Deployment to Cloudformation, disable this part. After complete Task definition creation,
 # enable this part and rerun this Cloudformation build to update the stack and create a new Service in the Cluster
-  # MyClusterService:
-  #   Type: 'AWS::ECS::Service'
-  #   Properties:
-  #     Cluster: !Ref MyECSCluster
-  #     ServiceName: !Ref ServiceName
-  #     TaskDefinition: !Ref TaskName
-  #     DesiredCount: 1
-  #     LaunchType: 'FARGATE'
-  #     NetworkConfiguration:
-  #       AwsvpcConfiguration:
-  #         AssignPublicIp: 'ENABLED'
-  #         SecurityGroups:
-  #           - !Ref SecurityGroup
-  #         Subnets:
-  #           - subnet-0b597d7e7dbd03718
-  #           - subnet-0b5916be75b287744
-  #           - subnet-0f260ae6a79311725
+  MyClusterService:
+    Type: 'AWS::ECS::Service'
+    Properties:
+      Cluster: !Ref MyECSCluster
+      ServiceName: !Ref ServiceName
+      TaskDefinition: !Ref TaskName
+      DesiredCount: 1
+      LaunchType: 'FARGATE'
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: 'ENABLED'
+          SecurityGroups:
+            - !Ref SecurityGroup
+          Subnets:
+            - subnet-0b597d7e7dbd03718
+            - subnet-0b5916be75b287744
+            - subnet-0f260ae6a79311725
 
 Outputs:
   ECRRepository:
     Value: !Ref MyECRRepository
   ECSCluster:
     Value: !Ref MyECSCluster
-  # ClusterService:
-  #   Value: !Ref MyClusterService
+  ClusterService:
+    Value: !Ref MyClusterService
