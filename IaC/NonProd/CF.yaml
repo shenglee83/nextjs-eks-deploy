@@ -56,5 +56,5 @@ Outputs:
     Value: !Ref MyECRRepository
   ECSCluster:
     Value: !Ref MyECSCluster
-  ClusterService:
-    Value: !Ref MyClusterService
+  # ClusterService:
+  #   Value: !Ref MyClusterService
