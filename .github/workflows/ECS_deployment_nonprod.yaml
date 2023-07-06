@@ -10,10 +10,9 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 env:
-  ECR_REPO_NAME: ${{vars.ECR_REPO_NAME}}_repo
-  CONTAINER_NAME: ${{vars.APP_NAME}}-container
   CLUSTER_NAME: ${{vars.APP_NAME}}-cluster
   SERVICE_NAME: ${{vars.APP_NAME}}-service
+  STACK_NAME: ${{vars.APP_NAME}}-stack
 
 jobs:
   # This workflow contains a single job called "build"
@@ -49,4 +48,4 @@ jobs:
           VERSION: ${{steps.package-version.outputs.current-version}}
 
       # sam deploy
-      - run: sam package --template-file ./IaC/NonProd/ECSCluster.yaml --s3-bucket my-gi-ecs-poc-bucket --output-template-file ecs-develop-deploy.yaml && aws cloudformation deploy --template-file ecs-develop-deploy.yaml --stack-name my-gi-nextjs-deploy-stack-nonprod --capabilities CAPABILITY_NAMED_IAM --parameter-override  ECRRepoName=${ECR_REPO_NAME} ClusterName=${CLUSTER_NAME} ContainerName=${CONTAINER_NAME} ServiceName=${SERVICE_NAME} Version=${VERSION} --debug
+      - run: sam package --template-file ./IaC/NonProd/ECSCluster.yaml --s3-bucket my-gi-ecs-poc-bucket --output-template-file ecs-develop-deploy.yaml && aws cloudformation deploy --template-file ecs-develop-deploy.yaml --stack-name ${STACK_NAME}-nonprod --capabilities CAPABILITY_NAMED_IAM --parameter-override ClusterName=${CLUSTER_NAME} ServiceName=${SERVICE_NAME} --debug
