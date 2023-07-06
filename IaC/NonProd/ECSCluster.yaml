@@ -1,34 +1,16 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Deploy a ECS service on AWS Fargate, using image build and stored in AWS ECR Container.
+Description: IaC to deploy ECS Cluster and Service on AWS Fargate to run application from ECR image.
 Parameters:
-  ECRRepoName:
-    Type: String
-    Description: Name of the ECR Repo
   ClusterName:
     Type: String
-    Description: A name for the cluster
-  ContainerName:
-    Type: String
-    Description: A name for the Container
+    Description: Name for the ECS cluster
   ServiceName:
     Type: String
-    Description: A name for the service
-  ContainerCpu:
-    Type: Number
-    Default: 256
-    Description: How much CPU to give the container. 1024 is 1 CPU
-  ContainerMemory:
-    Type: Number
-    Default: 512
-    Description: How much memory in megabytes to give the container
-  ContainerPort:
-    Type: Number
-    Default: 3000
-    Description: What port number the application inside the docker container is binding to
-  Version:
+    Description: Name for the ECS service
+  TaskName:
     Type: String
-    Description: Version number following the app/package.json version number
-  MySecurityGroup:
+    Description: Name of the Task defined in Task Definition schema family
+  SecurityGroup:
     Type: String
     Default: sg-0ad3f5bf6d56e8151
     Description: Security Group to be used
@@ -41,38 +23,20 @@ Resources:
       ClusterSettings:
         - Name: containerInsights # Enable Container Insight Logs
           Value: enabled
-  MyTaskDefinition:
-    Type: 'AWS::ECS::TaskDefinition'
-    Properties:
-      Family: !Ref ServiceName
-      RequiresCompatibilities:
-        - 'FARGATE'
-      Cpu: !Ref ContainerCpu
-      Memory: !Ref ContainerMemory
-      NetworkMode: 'awsvpc'
-      ExecutionRoleArn: arn:aws:iam::128115030554:role/ecsTaskExecutionRole
-      # TaskRoleArn: <your_task_role_arn>
-
-      ContainerDefinitions:
-        - Name: !Ref ContainerName
-          Image: !Join ['', [!Ref 'ECRRepoName', ':', !Ref 'Version']]
-          PortMappings:
-            - ContainerPort: !Ref ContainerPort
-          Essential: true
 
   MyClusterService:
     Type: 'AWS::ECS::Service'
     Properties:
       Cluster: !Ref MyECSCluster
       ServiceName: !Ref ServiceName
-      TaskDefinition: !Ref MyTaskDefinition
+      TaskDefinition: !Ref TaskName
       DesiredCount: 1
       LaunchType: 'FARGATE'
       NetworkConfiguration:
         AwsvpcConfiguration:
           AssignPublicIp: 'ENABLED'
           SecurityGroups:
-            - !Ref MySecurityGroup
+            - !Ref SecurityGroup
           Subnets:
             - subnet-0b597d7e7dbd03718
             - subnet-0b5916be75b287744

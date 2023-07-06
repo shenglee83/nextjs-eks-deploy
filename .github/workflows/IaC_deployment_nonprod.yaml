@@ -10,7 +10,10 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 env:
-  ECR_REPO_NAME: ${{vars.ECR_REPO_NAME}}
+  ECR_REPO_NAME: ${{vars.ECR_REPO_NAME}}_repo
+  CLUSTER_NAME: ${{vars.CLUSTER_NAME}}-cluster
+  SERVICE_NAME: ${{vars.APP_NAME}}-service
+  TASK_NAME: ${{vars.APP_NAME}}-task
 
 jobs:
   # This workflow contains a single job called "build"
@@ -40,4 +43,4 @@ jobs:
           aws-region: ap-southeast-1
 
       # sam deploy
-      - run: sam package --template-file ./IaC/NonProd/ECR.yaml --s3-bucket my-gi-ecs-poc-bucket --output-template-file ecr-develop-deploy.yaml && aws cloudformation deploy --template-file ecr-develop-deploy.yaml --stack-name my-gi-nextjs-deploy-stack-nonprod --capabilities CAPABILITY_NAMED_IAM --parameter-override RepositoryName=${ECR_REPO_NAME}_repo --debug
+      - run: sam package --template-file ./IaC/NonProd/CF.yaml --s3-bucket my-gi-ecs-poc-bucket --output-template-file cf-develop-deploy.yaml && aws cloudformation deploy --template-file cf-develop-deploy.yaml --stack-name my-gi-nextjs-deploy-stack --capabilities CAPABILITY_NAMED_IAM --parameter-override RepositoryName=${ECR_REPO_NAME} ClusterName=${CLUSTER_NAME} ServiceName=${SERVICE_NAME} TaskName=${TASK_NAME} --debug
