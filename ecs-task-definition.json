@@ -25,7 +25,7 @@
       "environment": [
         {
           "name": "ESKIN_MOTOR_PDS",
-          "value": "{{arn:aws:ssm:ap-southeast-1:128115030554:parameter/container_app/eskin_motor/PDS}}"
+          "value": "{{resolve:ssm:parameter/container_app/eskin_motor/PDS}}"
         }
       ],
       "environmentFiles": [
