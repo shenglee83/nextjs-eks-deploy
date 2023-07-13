@@ -4,6 +4,7 @@ export default function handler(req, res) {
   console.log(`Policy Wording: ${process.env.ESKIN_MOTOR_POLICY_WORDING}`);
   console.log(`PDS: ${process.env.ESKIN_MOTOR_PDS}`);
   console.log(`PDS_1: ${process.env.ESKIN_MOTOR_PDS_1}`);
-  console.log(`PDS_1: ${process.env.MERCHANT_CODE}`);
+  console.log(`MERCHANT_CODE: ${process.env.MERCHANT_CODE}`);
+  console.log(`IPAY88_URL: ${process.env.IPAY88_URL}`);
   res.status(200).json({ name: 'John Doe', value: process.env.API_VARIABLE })
 }
