@@ -24,8 +24,12 @@
       },
       "environment": [
         {
-          "name": "ESKIN_MOTOR_PDS",
-          "value": "{{resolve:ssm:parameter/container_app/eskin_motor/PDS}}"
+          "name": "MERCHANT_CODE",
+          "value": "M27482"
+        },
+        {
+          "name": "IPAY88_URL",
+          "value": "https://payment.ipay88.com.my/epayment/entry.asp"
         }
       ],
       "environmentFiles": [
