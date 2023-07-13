@@ -25,7 +25,7 @@
       "environment": [
         {
           "name": "ESKIN_MOTOR_POLICY_WORDING",
-          "value": "arn:aws:ssm:ap-southeast-1:128115030554:parameter/container_app/eskin_motor/policy_wording"
+          "value": "{{arn:aws:ssm:ap-southeast-1:128115030554:parameter/container_app/eskin_motor/PDS}}"
         }
       ],
       "environmentFiles": [
@@ -33,7 +33,13 @@
           "type": "s3",
           "value": "arn:aws:s3:::my-gi-ecs-poc-bucket/environment-variables/env-vars.env"
         }
-      ]
+      ],
+      "secrets": [
+        {
+            "name": "ESKIN_MOTOR_POLICY_WORDING",
+            "valueFrom": "arn:aws:ssm:ap-southeast-1:128115030554:parameter/container_app/eskin_motor/policy_wording"
+        }
+      ],
     }
   ],
   "executionRoleArn": "arn:aws:iam::128115030554:role/ecsTaskExecutionRole",
