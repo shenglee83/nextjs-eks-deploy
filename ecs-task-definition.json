@@ -40,12 +40,16 @@
       ],
       "secrets": [
         {
-            "name": "ESKIN_MOTOR_POLICY_WORDING",
-            "valueFrom": "arn:aws:ssm:ap-southeast-1:128115030554:parameter/container_app/eskin_motor/policy_wording"
+          "name": "ESKIN_MOTOR_POLICY_WORDING",
+          "valueFrom": "arn:aws:ssm:ap-southeast-1:128115030554:parameter/container_app/eskin_motor/policy_wording"
         },
         {
           "name": "ESKIN_MOTOR_PDS_1",
           "valueFrom": "arn:aws:ssm:ap-southeast-1:128115030554:parameter/container_app/eskin_motor/PDS"
+        },
+        {
+          "name": "MY_GI_APP_SECRET"
+          "valueForm": "arn:aws:secretsmanager:ap-southeast-1:128115030554:secret:my-gi-app-secret-password-Av20JT:my-gi-app-secret-password"
         }
       ]
     }
