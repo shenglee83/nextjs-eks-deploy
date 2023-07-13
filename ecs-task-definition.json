@@ -24,7 +24,7 @@
       },
       "environment": [
         {
-          "name": "ESKIN_MOTOR_POLICY_WORDING",
+          "name": "ESKIN_MOTOR_PDS",
           "value": "{{arn:aws:ssm:ap-southeast-1:128115030554:parameter/container_app/eskin_motor/PDS}}"
         }
       ],
