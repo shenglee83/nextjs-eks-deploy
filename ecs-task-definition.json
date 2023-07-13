@@ -39,7 +39,7 @@
             "name": "ESKIN_MOTOR_POLICY_WORDING",
             "valueFrom": "arn:aws:ssm:ap-southeast-1:128115030554:parameter/container_app/eskin_motor/policy_wording"
         }
-      ],
+      ]
     }
   ],
   "executionRoleArn": "arn:aws:iam::128115030554:role/ecsTaskExecutionRole",
