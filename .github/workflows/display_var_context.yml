@@ -26,6 +26,10 @@ jobs:
           echo ${{vars.APP_NAME}}
           echo ${{env.NEXT_PUBLIC_VARIABLE_ONE}}
           echo "${ALLMYVARS}"
+          for i in ${ALLMYVARS}
+          do
+             echo "Welcome $i"
+          done
 
 
     
