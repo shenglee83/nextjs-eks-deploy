@@ -10,7 +10,8 @@ on:
           #   echo "$var"
   # Allows you to run this workflow manually from the Actions tab 
   workflow_dispatch:
-
+env:
+  NEXT_PUBLIC_VARIABLE_ONE: ${{vars.NEXT_PUBLIC_VARIABLE_ONE}}
 jobs:
   display_variables:
     runs-on: ubuntu-latest
@@ -20,5 +21,4 @@ jobs:
       - name: Display GitHub Actions Environment Variables
         run: |
           echo ${{vars.APP_NAME}}
-          echo ${{vars}}
-          done
+          echo ${{env}}
