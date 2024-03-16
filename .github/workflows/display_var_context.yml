@@ -26,7 +26,7 @@ jobs:
           # Loop through each key-value pair in the JSON object
           echo "Bash version ${BASH_VERSION}..."
           echo "Displaying Environment Variables in env context:"
-          for keyName in "${env[@]}"
+          for keyName in "${{env[@]}}"
           do
             echo "$keyName in this workflow env context..."
           done
