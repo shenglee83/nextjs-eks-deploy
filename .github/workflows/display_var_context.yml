@@ -25,8 +25,8 @@ jobs:
           echo ${{env}}
           # Loop through each key-value pair in the JSON object
           echo "Displaying Vars Object Environment Variables:"
-          for key in  $(echo "$VARS_JSON" | jq -r 'keys[]');
-          do
-            value=$(echo "$VARS_JSON" | jq -r --arg key "$key" '.[$key]')
-            echo "$key=$value"
+          echo "Bash version ${BASH_VERSION}..."
+          for i in {0..10..2}
+          do 
+            echo "Welcome $i times"
           done
