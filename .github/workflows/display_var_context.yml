@@ -24,12 +24,9 @@ jobs:
           echo ${{vars.APP_NAME}}
           echo ${{env}}
           # Loop through each key-value pair in the JSON object
-          echo "Displaying Vars Object Environment Variables:"
           echo "Bash version ${BASH_VERSION}..."
-          # Set three aws zones to create RDS instances 
-          DB_AWS_ZONE=('us-east-2a' 'us-west-1a' 'eu-central-1a')
-           
-          for zone in "${DB_AWS_ZONE[@]}"
+          echo "Displaying Environment Variables in env context:"
+          for keyName in "${env[@]}"
           do
-            echo "Creating rds (DB) server in $zone, please wait ..."
+            echo "$keyName in this workflow env context..."
           done
