@@ -16,6 +16,6 @@ jobs:
     steps:
       - name: Display GitHub Actions Environment Variables
         run: |
-          for var in ${{ toJson(vars) }}; do
+          for var in ${{ vars }}; do
             echo "$var"
           done
