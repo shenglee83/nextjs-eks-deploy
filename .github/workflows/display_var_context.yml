@@ -29,7 +29,7 @@ jobs:
           echo "${ALLMYVARS}"
           for i in $(echo "$ALLMYVARS" | jq -r 'keys[]')
           do
-            value=$(echo "$VARS_JSON" | jq -r --arg key "$key" '.[$key]')
+            value=$(echo "$ALLMYVARS" | jq -r --arg key "$key" '.[$key]')
              echo "Key: $i, Value: $value"
           done
 
