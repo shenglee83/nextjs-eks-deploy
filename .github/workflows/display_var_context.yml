@@ -27,7 +27,7 @@ jobs:
           echo ${{vars.APP_NAME}}
           echo ${{env.NEXT_PUBLIC_VARIABLE_ONE}}
           echo "${ALLMYVARS}"
-          for i in ${{ toJSON(vars) }}
+          for i in $(echo "$ALLMYVARS" | jq -r 'keys[]')
           do
              echo "$i"
           done
