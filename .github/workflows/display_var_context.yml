@@ -23,15 +23,23 @@ jobs:
 
     steps:
       - name: Display GitHub Actions Environment Variables
+        id: define-variables
         run: |
           echo ${{vars.APP_NAME}}
           echo ${{env.NEXT_PUBLIC_VARIABLE_ONE}}
           echo "${ALLMYVARS}"
+          variables=""
           for key in $(echo "$ALLMYVARS" | jq -r 'keys[]' | grep '^NEXT_PUBLIC')
           do
             value=$(echo "$ALLMYVARS" | jq -r --arg key "$key" '.[$key]')
             echo "Key: $key , Value: $value"
+            variables+="$key=$value\n"
           done
+          echo "$variables" >> "$GITHUB_OUTPUT"
+      - name: Use Displayed Variables
+        run: |
+          displayed_variables="${{ steps.define-variables.outputs.variables }}"
+          echo "$displayed_variables"
 
 
     
