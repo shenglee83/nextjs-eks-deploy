@@ -29,8 +29,9 @@ jobs:
           echo "${ALLMYVARS}"
           for key in $(echo "$ALLMYVARS" | jq -r 'keys[]')
           do
+            if [[ $key =~ ^NEXT_PUBLIC.* ]]; the
             value=$(echo "$ALLMYVARS" | jq -r --arg key "$key" '.[$key]')
-             echo "Key: $key , Value: $value"
+            echo "Key: $key , Value: $value"
           done
 
 
