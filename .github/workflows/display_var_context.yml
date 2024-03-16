@@ -27,10 +27,10 @@ jobs:
           echo ${{vars.APP_NAME}}
           echo ${{env.NEXT_PUBLIC_VARIABLE_ONE}}
           echo "${ALLMYVARS}"
-          for i in $(echo "$ALLMYVARS" | jq -r 'keys[]')
+          for key in $(echo "$ALLMYVARS" | jq -r 'keys[]')
           do
             value=$(echo "$ALLMYVARS" | jq -r --arg key "$key" '.[$key]')
-             echo "Key: $i, Value: $value"
+             echo "Key: $key , Value: $value"
           done
 
 
