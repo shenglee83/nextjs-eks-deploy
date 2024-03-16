@@ -11,16 +11,23 @@ on:
   # Allows you to run this workflow manually from the Actions tab 
   workflow_dispatch:
 
+env:
+  NEXT_PUBLIC_VARIABLE_ONE: ${{vars.NEXT_PUBLIC_VARIABLE_ONE}}
+  NEXT_PUBLIC_VARIABLE_TWO: ${{vars.NEXT_PUBLIC_VARIABLE_TWO}}
 jobs:
   display_variables:
     runs-on: ubuntu-latest
     environment: sandbox
 
     steps:
-      - name: Display GitHub Actions Environment Variables
-        env:
-          NEXT_PUBLIC_VARIABLE_ONE: ${{vars.NEXT_PUBLIC_VARIABLE_ONE}}
+      - name: Setup Environment variable
+        env: 
+          NEXT_PUBLIC_VARIABLE_ONE: ${{ vars.NEXT_PUBLIC_VARIABLE_ONE }} # Access the Environment Variables using "vars" context
           NEXT_PUBLIC_VARIABLE_TWO: ${{vars.NEXT_PUBLIC_VARIABLE_TWO}}
+        run: |
+          echo "NEXT_PUBLIC_VARIABLE_ONE=${NEXT_PUBLIC_VARIABLE_ONE}" >> .env
+          echo "NEXT_PUBLIC_VARIABLE_TWO=${NEXT_PUBLIC_VARIABLE_TWO}" >> .env
+      - name: Display GitHub Actions Environment Variables
         run: |
           echo ${{vars.APP_NAME}}
           echo ${{env}}
