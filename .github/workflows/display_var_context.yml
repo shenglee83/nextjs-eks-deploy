@@ -25,7 +25,7 @@ jobs:
           echo ${{vars.APP_NAME}}
           echo ${{env.NEXT_PUBLIC_VARIABLE_ONE}}
           VAR_ARRAY = "${NEXT_PUBLIC_VARIABLE_ONE} ${NEXT_PUBLIC_VARIABLE_TWO}"
-          echo $VAR_ARRAY
+          echo ${VAR_ARRAY}
           # Loop through each key-value pair in the JSON object
           echo "Bash version ${BASH_VERSION}..."
           echo "Displaying Environment Variables in env context:"
