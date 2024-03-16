@@ -12,6 +12,7 @@ on:
   workflow_dispatch:
 env:
   NEXT_PUBLIC_VARIABLE_ONE: ${{vars.NEXT_PUBLIC_VARIABLE_ONE}}
+  NEXT_PUBLIC_VARIABLE_TWO: ${{vars.NEXT_PUBLIC_VARIABLE_TWO}}
 jobs:
   display_variables:
     runs-on: ubuntu-latest
@@ -22,3 +23,8 @@ jobs:
         run: |
           echo ${{vars.APP_NAME}}
           echo ${{env}}
+          # Loop through each key-value pair in the JSON object
+          echo "Displaying Vars Object Environment Variables:"
+          for key in $(echo "$env" | jq -r 'keys[]'); do
+            echo "$key=$value"
+          done
