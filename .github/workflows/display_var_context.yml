@@ -33,7 +33,7 @@ jobs:
           do
             value=$(echo "$ALLMYVARS" | jq -r --arg key "$key" '.[$key]')
             echo "Key: $key , Value: $value"
-            variables+="$key=$value\n"
+            variables+="--build-arg $key=$value "
           done
           echo "define_var=$variables" >> "$GITHUB_OUTPUT"
       - name: Use Displayed Variables
