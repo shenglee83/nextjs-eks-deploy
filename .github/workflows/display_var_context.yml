@@ -35,10 +35,11 @@ jobs:
             echo "Key: $key , Value: $value"
             variables+="$key=$value\n"
           done
-          echo "$variables" >> "$GITHUB_OUTPUT"
+          echo "define_var=$variables" >> "$GITHUB_OUTPUT"
       - name: Use Displayed Variables
         run: |
-          displayed_variables="${{ steps.define-variables.outputs.variables }}"
+          echo "${{ steps.define-variables.outputs.define_var }}"
+          displayed_variables="${{ steps.define-variables.outputs.define_var }}"
           echo "$displayed_variables"
 
 
