@@ -25,6 +25,6 @@ jobs:
           echo ${{vars.APP_NAME}}
           echo ${{env.NEXT_PUBLIC_VARIABLE_ONE}}
           DB_AWS_ZONE=('us-east-2a' 'us-west-1a' 'eu-central-1a')
-          VAR_ARRAY=${{env.NEXT_PUBLIC_VARIABLE_ONE}}
+          VAR_ARRAY=${env.NEXT_PUBLIC_VARIABLE_ONE}
           echo "$VAR_ARRAY"
          
