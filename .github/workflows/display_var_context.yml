@@ -1,4 +1,4 @@
-name: Display GitHub Actions Environment Variables
+name: Display GitHub Actions vars context Environment Variables
 
 on:
   push:
@@ -13,6 +13,6 @@ jobs:
     steps:
       - name: Display GitHub Actions Environment Variables
         run: |
-          for var in ${{ toJson(env) }}; do
+          for var in ${{ toJson(vars) }}; do
             echo "$var"
           done
