@@ -19,5 +19,6 @@ jobs:
     steps:
       - name: Display GitHub Actions Environment Variables
         run: |
-            echo ${vars}
+          echo ${{vars.APP_NAME}}
+          echo ${{vars}}
           done
