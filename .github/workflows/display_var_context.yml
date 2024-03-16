@@ -27,9 +27,8 @@ jobs:
           echo ${{vars.APP_NAME}}
           echo ${{env.NEXT_PUBLIC_VARIABLE_ONE}}
           echo "${ALLMYVARS}"
-          for key in $(echo "$ALLMYVARS" | jq -r 'keys[]')
+          for key in $(echo "$ALLMYVARS" | jq -r 'keys[]' | grep '^NEXT_PUBLIC')
           do
-            if [ $key =~ ^NEXT_PUBLIC.* ]; then
             value=$(echo "$ALLMYVARS" | jq -r --arg key "$key" '.[$key]')
             echo "Key: $key , Value: $value"
           done
