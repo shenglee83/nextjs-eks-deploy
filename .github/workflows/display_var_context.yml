@@ -25,6 +25,8 @@ jobs:
           echo ${{env}}
           # Loop through each key-value pair in the JSON object
           echo "Displaying Vars Object Environment Variables:"
-          for x in ${{ env }}; do
-            echo "$x"
+          for key in  $(echo "$VARS_JSON" | jq -r 'keys[]');
+          do
+            value=$(echo "$VARS_JSON" | jq -r --arg key "$key" '.[$key]')
+            echo "$key=$value"
           done
