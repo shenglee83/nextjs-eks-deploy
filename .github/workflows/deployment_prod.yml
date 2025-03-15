@@ -24,13 +24,14 @@ env:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    runs-on: self-hosted
     environment: production # The value will be production or sandbox, following the environment name configured in Settings -> Environments
                             # Use "vars" context to read the environment variable values setup in either sandbox or production environment.
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [21.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -44,56 +45,62 @@ jobs:
       - name: get-npm-version
         id: package-version
         uses: martinbeentjes/npm-get-version-action@main
-      
-      - name: Set up Build Time environment variables
-        env: 
-          NEXT_PUBLIC_VARIABLE_ONE: ${{ vars.NEXT_PUBLIC_VARIABLE_ONE }} # Access the Environment Variables using "vars" context
+
+      - name: test-run-self-hosted-runner
+        id: test-self-hosted-runner
         run: |
-          echo "NEXT_PUBLIC_VARIABLE_ONE=${NEXT_PUBLIC_VARIABLE_ONE}" >> .env
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID}}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@62f4f872db3836360b72999f4b87f1ff13310f3a
-
-      - name: Build, tag, and push docker image to Amazon ECR
-        id: build-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
-          ECR_IMAGE_TAG: ${{ github.sha }}
-          VERSION: ${{steps.package-version.outputs.current-version}}
-        run: |
-          # Build a docker container and
-          # push it to ECR so that it can
-          # be deployed to ECS.
-          # During Build, We need to pass in Build Time Environment Variable to --build-arg 
-          # -ENV in Docker context is meant for Run time Environment Variable
-          docker build \
-            --build-arg NEXT_PUBLIC_VARIABLE_ONE=${NEXT_PUBLIC_VARIABLE_ONE} \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION .
-          docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$VERSION" >> $GITHUB_OUTPUT
-
-      - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
-        with:
-          task-definition: ${{ env.ECS_TASK_DEFINITION_FILE }}
-          container-name: ${{ env.CONTAINER_NAME }}
-          image: ${{ steps.build-image.outputs.image }}
+          echo "This Deployment runs on a self hosted Github Action's runner"
+          echo "End"
       
-      - name: Deploy Amazon ECS task definition
-        id: ecs-deploy
-        uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
-        with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
+      # - name: Set up Build Time environment variables
+      #   env: 
+      #     NEXT_PUBLIC_VARIABLE_ONE: ${{ vars.NEXT_PUBLIC_VARIABLE_ONE }} # Access the Environment Variables using "vars" context
+      #   run: |
+      #     echo "NEXT_PUBLIC_VARIABLE_ONE=${NEXT_PUBLIC_VARIABLE_ONE}" >> .env
+
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+      #     aws-region: ${{ env.AWS_REGION }}
+
+      # - name: Login to Amazon ECR
+      #   id: login-ecr
+      #   uses: aws-actions/amazon-ecr-login@62f4f872db3836360b72999f4b87f1ff13310f3a
+
+      # - name: Build, tag, and push docker image to Amazon ECR
+      #   id: build-image
+      #   env:
+      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      #     ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+      #     ECR_IMAGE_TAG: ${{ github.sha }}
+      #     VERSION: ${{steps.package-version.outputs.current-version}}
+      #   run: |
+      #     # Build a docker container and
+      #     # push it to ECR so that it can
+      #     # be deployed to ECS.
+      #     # During Build, We need to pass in Build Time Environment Variable to --build-arg 
+      #     # -ENV in Docker context is meant for Run time Environment Variable
+      #     docker build \
+      #       --build-arg NEXT_PUBLIC_VARIABLE_ONE=${NEXT_PUBLIC_VARIABLE_ONE} \
+      #       -t $ECR_REGISTRY/$ECR_REPOSITORY:$VERSION .
+      #     docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
+      #     echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$VERSION" >> $GITHUB_OUTPUT
+
+      # - name: Fill in the new image ID in the Amazon ECS task definition
+      #   id: task-def
+      #   uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
+      #   with:
+      #     task-definition: ${{ env.ECS_TASK_DEFINITION_FILE }}
+      #     container-name: ${{ env.CONTAINER_NAME }}
+      #     image: ${{ steps.build-image.outputs.image }}
+      
+      # - name: Deploy Amazon ECS task definition
+      #   id: ecs-deploy
+      #   uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
+      #   with:
+      #     task-definition: ${{ steps.task-def.outputs.task-definition }}
+      #     service: ${{ env.ECS_SERVICE }}
+      #     cluster: ${{ env.ECS_CLUSTER }}
+      #     wait-for-service-stability: true
